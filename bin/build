@@ -1,0 +1,4 @@
+#!/bin/sh
+
+pandoc -s --metadata title="[RFC] Instance Usage Monitoring & Billing" -o README.html README.md
+pandoc -s -o README.pdf README.md

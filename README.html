@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>[RFC] Instance Usage Monitoring &amp; Billing</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">[RFC] Instance Usage Monitoring &amp; Billing</h1>
+</header>
+<h1 id="rfc-instance-usage-monitoring-billing">[RFC] Instance Usage
+Monitoring &amp; Billing</h1>
+<p>This document is an example RFC that I’m writing for the Storacha
+interview process. For this example, I’ve chosen some of the work I did
+on my last project —Nightingale Open Science— as a consultant at Carbon
+Five. For Nightingale, I led development of the initial MVP from
+conception to launch with a team of three that grew to seven by the time
+the project ended. Since leaving Carbon Five, I’ve kept up with
+Nightingale, and I’m very proud to say that the platform we built has
+since led to some real progress in the areas of breast cancer detection
+and tuberculosis treatment. Find more about their work on <a
+href="https://www.ngsci.org/updates">their blog here</a>.</p>
+<h2 id="author">Author</h2>
+<ul>
+<li>[rosalinekarr]</li>
+</ul>
+<h2 id="background">Background</h2>
+<p>Nightingale Open Science is a non-profit spun out of the University
+of Chicago focusing on supporting machine learning researchers working
+in the medical space with the goal of advancing medical technology and
+improving outcomes for patients. To this end, Nightingale has already
+secured grants in the form of both direct funding and credits for free
+resource usage on Azure and AWS. Additionally, Nightingale has exclusive
+access to large collections of volunteer medical records including MRI
+scans, X-rays, EEGs, EKGs and medical studies collected by the
+University of Chicago’s medical school. These records were approved for
+ML research use by patients, but they still come with a high degree of
+sensitivity due to HIPAA restrictions and PII inherit in the records, so
+their use needs to be strictly controlled and monitored. Nightingale’s
+plan is to offer access to these resources in a secure environment
+either free for other non-profit researchers and at a usage-based
+billing rate for private researchers which would then subsidize further
+non-profit work.</p>
+<h2 id="goals">Goals</h2>
+<ol type="1">
+<li>Build a platform where machine learning researchers can train models
+on Nightingale’s datasets.</li>
+<li>The platform must be as secure as reasonably possible, especially
+with regard to Nightingale’s medical data.</li>
+<li>The platform should support multi-cloud as much as possible to take
+advantage of Nightingale’s server credit grants.</li>
+<li>The platform should be familiar to ML researchers and therefore lean
+on existing ML UI patterns and tools.
+<ol type="a">
+<li>Users are technologically experienced and tend to prefer bare-bones
+GUIs.</li>
+<li>Users are very familiar with command line tools and enjoy working
+with them.</li>
+</ol></li>
+<li>Development should prioritize speed due to fundraising-related
+deadlines.</li>
+</ol>
+<h2 id="overview">Overview</h2>
+<p>Our solution for Nightingale’s platform consists of three new, custom
+pieces of software in combination with the existing tools, Jupyter
+Notebook and the Terraform. The three bespoke apps are a frontend React
+UI, an Elixir-Phoenix backend server and a special Python CLI app for
+use within Jupyter Notebook. We’ll use Jupyter Notebook for the actual
+research work, since most researchers are already familiar with it.
+We’ll use Terraform for managing instances across various clouds, since
+Terraform standardizes each cloud’s unique APIs and Kubernetes does not
+yet support attaching the GPU resources we need. We’ll also use standard
+proxy services and network drives for each cloud provider to host
+Nightingale’s data and secure it. A general diagram of the system
+follows:</p>
+<figure>
+<img src="./assets/overview.png" alt="Overview" />
+<figcaption aria-hidden="true">Overview</figcaption>
+</figure>
+<h3 id="user-facing-application">User-Facing Application</h3>
+<p>On the user-facing aspect of the system, researchers will interact
+with two single-page applications: our bespoke React app for managing
+instances and interacting with the Nightingale API; and the Jupyter
+Notebook UI. Our frontend app will interact with Nightingale’s backend
+REST API written in Elixir Phoenix to take advantage of the Erlang VMs
+concurrency tooling for instance monitoring and the team’s familiarity
+with the framework. The Jupyter UI will interact with a proxy endpoint
+using the API to associate authenticated users with their instances and
+forward requests and responses accordingly.</p>
+<figure>
+<img src="./assets/instances.png" alt="Web Application" />
+<figcaption aria-hidden="true">Web Application</figcaption>
+</figure>
+<h3 id="backend-instance-management">Backend Instance Management</h3>
+<p>For managing user instances, the Nightingale backend server will use
+concurrent Erlang processes to run instance supervisors responsible
+launching and shutting down instances, monitoring their status and
+proxying interactions with instances from users and other automated
+features. These supervisor processes will use Terraform to allocate
+resources, start instance servers, and stop servers across AWS EC2,
+Azure VMs, and GCP Cloud Run. These supervisors can also poll the
+built-in <code>/api</code> endpoint in Jupyter API once a second to
+check when a notebook server has successfully started and whether
+instances are still running. This information can then be used to update
+billing for applicable accounts and to monitor for server crashes.</p>
+<p>The individual Jupyter Notebook servers will run a custom fork of the
+standard Jupyter Notebook docker container pre-configured to mount a
+read-only ZFS drive including Nightingale’s exclusive training data.
+Reads from these notebooks on the training data drive will also be
+proxied through a monitor to log all files accessed, when, for how long
+and by who, for auditing and monitoring. This auditing can be done with
+any off-shelf logging analysis tool, such as Datadog or Kibana. Such
+tools can also be used to monitor for large files transfers indicating
+that uses may be attempting to exfiltrate Nightingale’s sensitive and
+proprietary data.</p>
+<figure>
+<img src="./assets/web_app.png" alt="Instances" />
+<figcaption aria-hidden="true">Instances</figcaption>
+</figure>
+<h3 id="python-cli-tool">Python CLI Tool</h3>
+<p>The forked Jupyter Notebook container will include a pre-installed
+Python CLI tool written for interacting with the Nightingale instance
+supervisor from within an instance. This tool should enable researchers
+to implement many commonly requested features for research platforms
+themselves, including automatically shutting down notebooks once
+training is complete, automatically resizing instances between training
+runs, and notifying the researcher in the event of an error.</p>
+<figure>
+<img src="./assets/detailed_overview.png" alt="Detailed Overview" />
+<figcaption aria-hidden="true">Detailed Overview</figcaption>
+</figure>
+<h2 id="open-questions">Open Questions</h2>
+<ol type="1">
+<li>What resources should be user configurable and how?
+<ol type="a">
+<li>Should we use a t-shirt sizing system, i.e. small, medium, large
+instances?</li>
+<li>If so, should that system be per-resource or overall? Should users
+be able to combine a “small” CPU package with a “large” GPU
+package?</li>
+<li>If not, at what granularity should we allow users to specify
+resources?</li>
+</ol></li>
+<li>What sort of monitors are necessary to provide the degree of
+security we want in the platform?
+<ol type="a">
+<li>Large file download monitor?</li>
+<li>Honeypots?</li>
+</ol></li>
+</ol>
+<h2 id="next-steps">Next Steps</h2>
+<ol type="1">
+<li>Write a more detailed definition of the Nightingale Backend server,
+including authentication methods, API definitions, and billing
+policies.</li>
+<li>Write a more detailed definition of the Nightingale Instance
+supervisor, including Terraform config files for each cloud provider and
+proxy policies.</li>
+<li>Break the actionable setup above, including initial server and
+repository setups, into feature stories for planning, estimation and
+implementation.</li>
+</ol>
+</body>
+</html>
