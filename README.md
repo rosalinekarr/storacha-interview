@@ -1,10 +1,10 @@
 # [RFC] Instance Usage Monitoring & Billing
 
 This document is an example RFC that I'm writing for the Storacha interview process.
-For this example, I've chosen some of the work I did on my last project —Nightingale Open Science— as a consultant at Carbon Five.
+For this example, I've chosen some of the work I did on my last project as a consultant at Carbon Five, Nightingale Open Science.
 For Nightingale, I led development of the initial MVP from conception to launch with a team of three that grew to seven by the time the project ended.
 Since leaving Carbon Five, I've kept up with Nightingale, and I'm very proud to say that the platform we built has since led to some real progress in the areas of breast cancer detection and tuberculosis treatment.
-Find more about their work on [their blog here](https://www.ngsci.org/updates).
+Find more about Nightingale's work on [their blog](https://www.ngsci.org/updates).
 
 ## Author
 
@@ -12,7 +12,7 @@ Find more about their work on [their blog here](https://www.ngsci.org/updates).
 
 ## Background
 
-Nightingale Open Science is a non-profit spun out of the University of Chicago focusing on supporting machine learning researchers working in the medical space with the goal of advancing medical technology and improving outcomes for patients.
+Nightingale Open Science is a non-profit spun out of the University of Chicago focusing on supporting machine learning researchers working in the medical space with the goal of advancing medical science and improving real-world outcomes for patients.
 To this end, Nightingale has already secured grants in the form of both direct funding and credits for free resource usage on Azure and AWS.
 Additionally, Nightingale has exclusive access to large collections of volunteer medical records including MRI scans, X-rays, EEGs, EKGs and medical studies collected by the University of Chicago's medical school.
 These records were approved for ML research use by patients, but they still come with a high degree of sensitivity due to HIPAA restrictions and PII inherit in the records, so their use needs to be strictly controlled and monitored.
@@ -20,7 +20,7 @@ Nightingale's plan is to offer access to these resources in a secure environment
 
 ## Goals
 
-1. Build a platform where machine learning researchers can train models on Nightingale's datasets.
+1. Build a platform where machine learning researchers can train and run models on Nightingale's datasets.
 1. The platform must be as secure as reasonably possible, especially with regard to Nightingale's medical data.
 1. The platform should support multi-cloud as much as possible to take advantage of Nightingale's server credit grants.
 1. The platform should be familiar to ML researchers and therefore lean on existing ML UI patterns and tools.
@@ -30,11 +30,12 @@ Nightingale's plan is to offer access to these resources in a secure environment
 
 ## Overview
 
-Our solution for Nightingale's platform consists of three new, custom pieces of software in combination with the existing tools, Jupyter Notebook and the Terraform.
-The three bespoke apps are a frontend React UI, an Elixir-Phoenix backend server and a special Python CLI app for use within Jupyter Notebook.
+Our solution for Nightingale's platform consists of three new applications in combination with the existing tools, Jupyter Notebook and the Terraform.
+The three bespoke apps are a frontend React UI, an Elixir-Phoenix backend server, and a special Python CLI app for use within research instances.
 We'll use Jupyter Notebook for the actual research work, since most researchers are already familiar with it.
 We'll use Terraform for managing instances across various clouds, since Terraform standardizes each cloud's unique APIs and Kubernetes does not yet support attaching the GPU resources we need.
 We'll also use standard proxy services and network drives for each cloud provider to host Nightingale's data and secure it.
+
 A general diagram of the system follows:
 
 ![Overview](./assets/overview.png)
